@@ -1,42 +1,47 @@
 import React, { Component } from 'react';
 import './App.css';
+import { Header, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { clickButton } from './action';
 import { bindActionCreators } from 'redux';
-
-/**@summary store feita seguindo os passos de https://medium.com/reactbrasil/iniciando-com-redux-c14ca7b7dcf */
+import { actionsTimer } from './redux/action';
+import { tickTimer } from './redux/saga';
 
 class App extends Component {
-  state = {
-    inputValue: ''
+  handleStart = () => {
+    if (!this.props.counting) {
+      this.props.start();
+      this.props.tick(true);
+    }
   };
-
-  inputValueHandle = event => {
-    this.setState({ inputValue: event.target.value });
+  handleStop = () => {
+    this.props.stop();
+    this.props.tick(false);
   };
 
   render() {
-    const { inputValue } = this.state;
-    const { clickButton, newValue } = this.props;
-
     return (
-      <div className='App' style={{ paddingTop: '10px' }}>
-        <input
-          type='text'
-          value={inputValue}
-          onChange={this.inputValueHandle}
-        />
-        <button onClick={() => clickButton(inputValue)}>Click me!</button>
-        <h1>{newValue}</h1>
+      <div className='App'>
+        <Header size='huge'>{this.props.number}</Header>
+        <div>
+          <Button primary onClick={this.handleStop}>
+            Reset
+          </Button>
+          <Button secondary onClick={this.handleStart}>
+            Start
+          </Button>
+        </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = store => ({ newValue: store.clickState.newValue });
+const mapStateToProps = state => {
+  const dadosTimer = state;
+  return dadosTimer;
+};
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({ clickButton }, dispatch);
+  bindActionCreators({ ...actionsTimer }, dispatch);
 
 export default connect(
   mapStateToProps,
