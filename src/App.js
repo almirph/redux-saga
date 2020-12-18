@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Header, Button } from 'semantic-ui-react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionsTimer } from './redux/action';
-import { tickTimer } from './redux/saga';
+import React, { Component } from "react";
+import "./App.css";
+import { Header, Button } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { actionsTimer } from "./redux/action";
 
 class App extends Component {
   handleStart = () => {
@@ -20,8 +19,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className='App'>
-        <Header size='huge'>{this.props.number}</Header>
+      <div className="App">
+        <Header size="huge">{this.props.number}</Header>
         <div>
           <Button primary onClick={this.handleStop}>
             Reset
@@ -35,15 +34,12 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const dadosTimer = state;
   return dadosTimer;
 };
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
   bindActionCreators({ ...actionsTimer }, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
